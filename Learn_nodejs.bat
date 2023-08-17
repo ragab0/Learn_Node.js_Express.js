@@ -36,20 +36,21 @@ Learn how to use Node and Express in this comprehensive course. First, you will 
 ⌨️ (2:15:04​) Uninstall
 ⌨️ (2:17:53​) Global Install
 ⌨️ (2:23:22​) Package-Lock.Json
-⌨️ (2:25:56​) Important Topics Intro
 
+⌨️ (2:25:56​) Important Topics Intro
 ⌨️ (2:27:38​) Event Loop
 ⌨️ (2:30:47​) Event Loop Slides
 ⌨️ (2:37:46​) Event Loop Code Examples
 ⌨️ (2:47:07​) Async Patterns - Blocking Code
 ⌨️ (2:54:49​) Async Patterns - Setup Promises
-
 ⌨️ (3:00:35​) Async Patterns - Refactor To Async
 ⌨️ (3:06:05​) Async Patterns - Node's Native Option
+
 ⌨️ (3:12:41​) Events Info
 ⌨️ (3:14:44​) Events Emitter - Code Example
 ⌨️ (3:18:37​) Events Emitter - Additional Info
 ⌨️ (3:21:44​) Events Emitter - Http Module Example
+
 ⌨️ (3:25:10​) Streams Intro
 ⌨️ (3:26:18​) Streams - Read File
 ⌨️ (3:33:01​) Streams - Additional Info
@@ -68,8 +69,8 @@ Learn how to use Node and Express in this comprehensive course. First, you will 
 
 ⌨️ (4:48:02​) Express Info
 ⌨️ (4:51:50​) Express Basics
-⌨️ (5:03:05​) Express - App Example
 
+⌨️ (5:03:05​) Express - App Example
 ⌨️ (5:14:31​) Express - All Static
 ⌨️ (5:18:13​) API Vs SSR
 
@@ -220,6 +221,45 @@ require('fs'): "Allows us to work with file systems";
 -writeFileSync(file, data, options{flag: "a" for append});
 -appendFileSync(file, data, options);
 
+===================================
+===== CHapter_02: Write files =====
+===================================
+File system, the common core module (fs):
+    It enables us interacting with the file system in a way modeled on standard POSIX functions.
+    It allows us Create\Read\Update\Delete Files;
+    It allows us work with dirs on the server BECAUSE Nodejs runs on the server;
+    Its operations are async funcs:
+    Its operations would be exists in different levels with a queue for each level as they are async funcs;
+    They can be used in 01 callbacks or 02 Promesis way
+        01 callbacks by using: const fs = require("fs");
+        02 promises by using: const fsPromises = require("fs").promises and const fileOps = async() => try(){} and catch;
+        03 stream way if you have large or many files;
+        04 
+
+
+
+readFile, writeFile, appendFile, unlink (deleting) + .rename, 
+--------------------------------------------------
+They accepts some params with:
+    01 filename
+        "./files/file.txt": some time or rarely got stuck;
+        || path.join(__dirname, "files", "file.txt");
+    02 char-type: 
+        "utf8";
+        || convert the data.toString() when you readFile;
+    03 a param used with writeFile\appendFile;
+
+    00 callback function [(err, data), (data) on writeFile\appendFile];
+
+fs.readFile():
+    executes after write\append operations and before rename on the same level on the async queue;
+
+fs.appendFile():
+    creates a new if it doesn't exist;
+
+fs.rename(path, newPath, callback);
+    executes at the end of the queue; 
+
 
 
 
@@ -231,23 +271,103 @@ http module
 "explain everything in deepest detail, Then we'll use an abstraction of http module which Express.js;
 
 
-require(''): "Allows us to setup web-servers";
--
--
--
--
+require('http'): "Allows us to setup web-servers";
+-createServer(function Callback(req, res) {
+    req: "Represent the upcoming request, Imagine a client is sending a req obj with info.. from a web-browser";
+    res: "Represent what is we'll going to sending back to the client";
+
+    if (req.url === "/") {
+        res.write("Welcome to our home page");
+        res.end();
+    } else if (req.url === "/about") {
+        res.end("Welcome to our about page");
+    }
+
+    res.end(`<h1>Sorry, the page you need is not found</h1>`)
+})
+-listen(port): "Our web-server will always listen to that port whenever got uploaded on a server, applies req from that port"
 
 
 
 
 
+======================================
+===== NPM - Node Package Manager =====
+======================================
+-It The world biggest code store;
+-It is installed with nodejs;
+-There is no quality control in NPM registry which mean that anyone can publish anything;
+-It is called the 00 reusable code || 01 packages || 02 modules || 03 dependencies, which contain JS code (Sharable code);
+-It is The place where we can:
+    01 share our solutions, 
+    02 reuse our code in other projs, 
+    03 or using a code that written with other developers that can do what you need;
+    ## Example like: create-react-app packages which is hosted in NPM;
 
-============================
-===== Built-in modules =====
-============================
 
 
 
 01
-os module
-=========
+NPM Commands
+============
+-npm --v: "9.5.1 in nodejs v18.16.1";
+-npm [i, install] <packagename>: "Local dependency - we use it only in a particular project";
+-npm [i, install] -g <packagename>: "Global - in any project";
+-npm [i, install] [-D, --save-dev] <packagename>: "Install as devDependency, needed only in development not at production";
+
+
+package.json
+------------
+A manifest file which stores the important ifno about our project/package, The ID card of our project
+-npm init: "Setup the ID";
+-npm init -y: "The y flag For default answers";
+-nano package.json: "manually setup the props";
+
+It helps us to share the code without draging the massive node modules folder;
+-npm install;
+    -- install the dependencies of a project in a dynamic way by:
+
+h
+
+
+
+
+
+
+
+
+======================================
+========== Important topics ==========
+======================================
+-EVENT LOOP, ASYNC PATTERNS, EVENTS EMITTER AND STREAMS;
+-MAIN CONCEPTS;
+-PRE-BUILT CODE;
+
+"AS we said before we'll explain the general idea about these important topics SO";
+"WE should search to have a deep understanding using our best engine search";
+
+
+
+01
+EVENT LOOP
+==========
+
+
+
+02
+ASYNC PATTERNS
+==============
+
+
+
+
+03
+EVENTS EMITTER
+==============
+
+
+
+
+04
+STREAMS
+=======
