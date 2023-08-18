@@ -41,6 +41,7 @@ Learn how to use Node and Express in this comprehensive course. First, you will 
 ⌨️ (2:27:38​) Event Loop
 ⌨️ (2:30:47​) Event Loop Slides
 ⌨️ (2:37:46​) Event Loop Code Examples
+
 ⌨️ (2:47:07​) Async Patterns - Blocking Code
 ⌨️ (2:54:49​) Async Patterns - Setup Promises
 ⌨️ (3:00:35​) Async Patterns - Refactor To Async
@@ -56,6 +57,7 @@ Learn how to use Node and Express in this comprehensive course. First, you will 
 ⌨️ (3:33:01​) Streams - Additional Info
 ⌨️ (3:35:05​) Streams - Http Example
 ⌨️ (3:40:29​) End Of Node Tutorial Module
+
 ⌨️ (3:40:46​) HTTP Request/Response Cycle
 ⌨️ (3:44:49​) Http Messages
 ⌨️ (3:55:52​) Starter Project Install
@@ -305,31 +307,51 @@ require('http'): "Allows us to setup web-servers";
     ## Example like: create-react-app packages which is hosted in NPM;
 
 
-
-
 01
 NPM Commands
 ============
 -npm --v: "9.5.1 in nodejs v18.16.1";
 -npm [i, install] <packagename>: "Local dependency - we use it only in a particular project";
--npm [i, install] -g <packagename>: "Global - in any project";
--npm [i, install] [-D, --save-dev] <packagename>: "Install as devDependency, needed only in development not at production";
+-npm [i, install] -g <packagename>: 
+    "Global - in any project";
+    "Running without typing node or npm at first"
+-npm [i, install] [-D, --save-dev] <packagename>: 
+    "Install as devDependency, needed only in development not at production";
+    "LIKE testing or linting ..";
+-npm uninstall <packageName>: "Uninstall";
 
 
+
+02 Node commands
+================
+-node <filename>: "Run the file";
+-node --watch <filename>: "And watch it for any change";
+-<pckageName> <filename>: 
+    "Running an installed global package for a file,"
+    "Global installed doesn't need the word node at first since it a global at entire system";
+
+
+
+03
 package.json
-------------
-A manifest file which stores the important ifno about our project/package, The ID card of our project
+============
+A manifest file which stores the important ifno about our project/package, The ID card of our project;
 -npm init: "Setup the ID";
 -npm init -y: "The y flag For default answers";
 -nano package.json: "manually setup the props";
 
 It helps us to share the code without draging the massive node modules folder;
--npm install;
-    -- install the dependencies of a project in a dynamic way by:
+-npm install: "install the dependencies of a project in a dynamic way";
 
-h
+It helps us to set up our commands with alias names;
+-npm run <nameOfCommand>;
 
 
+
+04
+package-lock.json
+=================
+-Its has the other dependencies that the package dependens on them with their version, ..;
 
 
 
@@ -343,14 +365,21 @@ h
 -MAIN CONCEPTS;
 -PRE-BUILT CODE;
 
-"AS we said before we'll explain the general idea about these important topics SO";
-"WE should search to have a deep understanding using our best engine search";
+"AS we said before the goal is t understand the general idea behined these importat topcis";
+"SO WE should search to have a deep understanding using our favourite search engine";
 
 
 
 01
 EVENT LOOP
 ==========
+-They are what allows nodejs to perfom Input/Output operations;
+-JS is a single-thread
+-Callbacks runs in the way of LIFO stack;
+-Async operations are offloaded SO they run after the JS code done in the way of queue (FIFO);
+    ## EVENT loops invoke the callbacks every N seconds in setInterval;
+    ## Server.listen(): EVENT loops run the callback in everytime the server got a request;
+    .. BOTH stays alive becuase they are async;
 
 
 
@@ -362,12 +391,57 @@ ASYNC PATTERNS
 
 
 03
-EVENTS EMITTER
-==============
-
+EVENTS: EMITTER
+===============
+-Events-Driven Programming is a big punch of nodejs;
+-It us used heavily in nodejs many of packages used them under the hood;
+-Example:
+    -Setup\emitting\instanciate an event by:
+        01 const EventEmitter = require("events");
+        02 const customEmitter = new EventEmitter();
+    -Setup the actions:
+        01 customEmitter.on("click", function(param1, param2, ...[params]) {})
+    -Calling an action:
+        01 customEmitter.emit("click", "legend");
 
 
 
 04
 STREAMS
 =======
+-It is extends the eventEmitter class;
+    -- So is has the events\action 01 "data, (result) => ", 02 "open", 03 "error, (err) => ", 
+-It is come to deal with big files, to make them chunked in transfer-encoding in header;
+-It is .. data sequently:
+    --Writeable;
+    --Readable;
+    --Duplix: "Both Read and write";
+    --Transform: "Data can be modified when writing, or reading";
+
+Example:
+    01 const { createReadStream } = require("fs");
+    02 const stream = createReadStream("path/bigFile.txt", "utf8");
+    02 const stream = createReadStream("path/bigFile.txt", {highWaterMark: "60000 default buffer", encoding: "utf8"});
+    03 stream.on("data", function(result) {}); @REM 
+    // It has an action called data which take result as a param;
+
+
+
+
+
+
+
+
+
+
+
+
+
+======================================
+================ HTTP ================
+======================================
+-Request and Response msg;
+    -- They both have the:
+    01 The first line;
+    02 Header content;
+    03 Body content[optional];
