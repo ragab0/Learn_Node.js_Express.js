@@ -1,4 +1,6 @@
-Learn how to use Node and Express in this comprehensive course. First, you will learn the fundamentals of Node and Express. Then, you will learn to build a complex Rest API. Finally, you will build a MERN app and other Node projects.
+Learn how to use Node and Express in this comprehensive course. 
+First, we will learn the fundamentals of "01 Node" and "02 Express". 
+Then, we will learn to build a complex "03 Rest API". Finally, you will build a "04 MERN app and other Node projects".
 
 ⭐️ Course Contents ⭐️
 ⌨️ (00:00​) Introduction 
@@ -66,17 +68,17 @@ Learn how to use Node and Express in this comprehensive course. First, you will 
 ⌨️ (4:03:25​) Http Basics
 ⌨️ (4:15:09​) Http - Headers
 ⌨️ (4:24:50​) Http - Request Object
+
 ⌨️ (4:32:00​) Http - Html File
 ⌨️ (4:37:20​) Http - App Example
-
 ⌨️ (4:48:02​) Express Info
 ⌨️ (4:51:50​) Express Basics
 
 ⌨️ (5:03:05​) Express - App Example
 ⌨️ (5:14:31​) Express - All Static
 ⌨️ (5:18:13​) API Vs SSR
-
 ⌨️ (5:24:07​) JSON Basics
+
 ⌨️ (5:32:40​) Params, Query String - Setup
 ⌨️ (5:39:13​) Route Params
 ⌨️ (5:48:25​) Params - Extra Info
@@ -209,7 +211,8 @@ require('path'): "Allows us to interact with paths in easir way";
 -sep: "/" : "The sperate that used in the path in this platform";
 -join(): "Joined the params together and if any of them end with a sep then it will removed";
 -basename: "Extracts the file of a path with its ext";
--resolve(): "Returns the correct absolute path if you don't start with the sep"
+-resolve(): "Returns the correct absolute path if you don't start with the sep";
+            "First default param is __dirname in case we don't start with the sep";
 
 
 
@@ -275,8 +278,12 @@ http module
 
 require('http'): "Allows us to setup web-servers";
 -createServer(function Callback(req, res) {
+    call: "Callback func runs in everytime the user hit\req the server";
     req: "Represent the upcoming request, Imagine a client is sending a req obj with info.. from a web-browser";
     res: "Represent what is we'll going to sending back to the client";
+    end: ".end() signals to the server that all headers and body have been sent, MUST be called on each res;
+    write: "It followed by .end(), WE can use end direct without needing it";
+    
 
     if (req.url === "/") {
         res.write("Welcome to our home page");
@@ -442,6 +449,146 @@ Example:
 ======================================
 -Request and Response msg;
     -- They both have the:
-    01 The first line;
-    02 Header content;
-    03 Body content[optional];
+    .. The first line;
+    .. Header content;
+    .. Body content[optional];
+
+
+01 Request intro:
+    01 Request URL: "...";
+    02 Request Method: "...";
+    03 Status Code: "": Send or not;
+    04 Remote Address: "IP";
+    05 Referrer Policy: "strict-origin-when-cross-origin";
+01 Response intro:
+    We response back at first line with the data such as:
+    01 Request URL: "...";
+    02 Request Method: "...";
+    03 Status Code + Status text: "": Is it a bad\good req?;
+    04 Remote Address: "";
+    05 Referrer Policy: "strict-origin-when-cross-origin";
+
+
+02 Request header:
+    01 Pragma: "";
+    02 Referer: "";
+02 Response header:
+    01 content-type: [application/json || text/html || ..];
+    -- We response usually with application json (string, arrays, html, ...);
+    -- We can also response with text html but not usually;
+
+
+03 Request body:
+    -- Usually it is about JSON object;
+03 Response body:
+    -- Usually it is about JSON object but had stringified before sending;
+    -- It can also be an HTML template;
+
+
+
+-MIME type
+    -- We use the MIME type to tell the browser what we're going to send back (application, audio, text, ...)
+    -- It consits of two string (type nad subtype), (general type and specific one);
+    -- It accepts params to provide addiotnal details, separated by ";";
+    .. "Express takes care of all that UNLESS you want to setup manually from scratch";
+
+
+
+Request object
+--------------
+-url;
+-method();
+
+
+Response object
+---------------
+-writeHead(statusCode[, statusMessage][, headers])
+    ## res.writeHead(200, "GOOD req", {"content-type": "text/html"})
+    ## res.writeHead(404, "BAD req, page not found", {})
+    .. res.end("<h1>Writing an html template code (a content not the file itself) as content-type is text html</h1>");
+
+
+content-type: Html File
+-----------------------
+-We need first to read the file and then send at as an html template code;
+    ## const homePage = fs.readFileSync("..");
+    ## res.end(homePage)
+
+
+
+
+
+
+
+
+
+
+
+
+
+=====================================
+============== Express ============== (I haven't internet to install it ^_^ SO, ...);
+=====================================
+Built in top of http modules;
+
+
+const express = require("express");
+const app = express();
+    Sicne that we're have a punch of methods and props on that obj;
+    app.get(): "READ data", "THE default request type";
+    app.post(): "INSERT data";
+    app.put(): "UPDATE data";
+    app.delete(): "DELETE data";
+    app.all(): "Handles all http methods - GET POST PUT and DELETE - all works together";
+    app.use(): "RESPONSIBLE for middlwares", "Explained whenever we understand SSR .. template engines";
+    app.listen();
+
+    -- res.send();
+    -- res.status().send();
+    -- res.status().sendFile();
+        @REM HTML is a static file so.. we may add it the static folder instead of use that method withit;
+
+
+01
+.listen(port, callback):
+    ## app.listen( function callback() {
+        console.log("Server now is listening, good luck in ur reqs!");
+    });
+
+02
+.get(targetPath, a callback with access on (req and res))
+    ## app.get("/", function(req, res) {
+        res.status(200).send("user hit the resource, the targetPath, congrats!");
+        @REM USING status is a good best practicing;
+    })
+
+03
+.all(path, a callback with access on (req and res)) 
+    ## app.all("*", function(req, res) {
+        res.status(404).send("res not founded, go home instead");
+    })
+
+04
+.use(express.static(["./assets" || "./public" || "./static"]))
+    -- Make the static rouserces, without neeeding setup of 01 status, 02 content-type, 03 MIME types, 04 Paths;
+    -- Static assets mean: the server doesn't have to change these files;
+    -- Creating done in automatic way without need setup the tons of paths for each req of static files;
+
+
+
+API vs SSR
+----------
+-API that are HTTP interface, which are interacts with the data that is in our server,
+ and any front-end app, interface app, can easily send a req and get on a res;
+
+01
+API => JSON;
+SSR => TEMPLATE;
+
+02
+API => send data;
+SSR => send template;
+
+03
+API => res.json();
+SSR => res.render();
