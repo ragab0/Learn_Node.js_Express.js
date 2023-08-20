@@ -87,9 +87,9 @@ Then, we will learn to build a complex "03 Rest API". Finally, you will build a 
 ⌨️ (6:07:31​) Additional Params And Query String Info
 ⌨️ (6:10:46​) Middleware - Setup
 ⌨️ (6:21:27​) APP.USE
+
 ⌨️ (6:28:31​) Multiple Middleware Functions
 ⌨️ (6:36:36​) Additional Middleware Info
-
 ⌨️ (6:43:26​) Methods - GET
 ⌨️ (6:49:01​) Methods - POST
 ⌨️ (6:52:53​) Methods - POST (Form Example)
@@ -99,8 +99,8 @@ Then, we will learn to build a complex "03 Rest API". Finally, you will build a 
 ⌨️ (7:21:22​) Install Postman
 ⌨️ (7:30:19​) Methods - PUT
 ⌨️ (7:41:43​) Methods - DELETE
-⌨️ (7:50:05​) Express Router - Setup
 
+⌨️ (7:50:05​) Express Router - Setup
 ⌨️ (8:05:36) Express Router - Controllers
 
 
@@ -180,7 +180,7 @@ import
 
 
 ============================
-===== Built-in modules =====
+===== Built-in modules ===== (Python in dealing with file system :DD);
 ============================
 -os;
 -path;
@@ -301,7 +301,7 @@ require('http'): "Allows us to setup web-servers";
 
 
 ======================================
-===== NPM - Node Package Manager =====
+===== NPM - Node Package Manager ===== (Terminal and CLI :DD) may be;
 ======================================
 -It The world biggest code store;
 -It is installed with nodejs;
@@ -445,7 +445,7 @@ Example:
 
 
 ======================================
-================ HTTP ================
+================ HTTP ================ (Axios :DD);
 ======================================
 -Request and Response msg;
     -- They both have the:
@@ -547,6 +547,7 @@ const app = express();
     -- res.status().send();
     -- res.status().sendFile();
         @REM HTML is a static file so.. we may add it the static folder instead of use that method withit;
+    -- res.json();
 
 
 01
@@ -576,7 +577,7 @@ const app = express();
 
 
 
-API vs SSR
+API vs SSR (Nextjs routes :DD);
 ----------
 -API that are HTTP interface, which are interacts with the data that is in our server,
  and any front-end app, interface app, can easily send a req and get on a res;
@@ -592,3 +593,80 @@ SSR => send template;
 03
 API => res.json();
 SSR => res.render();
+
+
+
+res.json([options])
+-------------------
+-This methods sends a JSON response with the correct-type
+-It is coverted to string under the hood using JSON.stringify();
+-It can be any type of obj, string, null, string, boll;
+-It is converted again the JS using JSON.prase(THAT JSON.stringiny);
+-"WE send only one res for each request";
+ "SO we must return it and stop the code in case there is another res after that statement and it is going to be executed";
+
+
+Remember:
+    -- JSON structure used only "" not '';
+    -- JSON parses argu is about a text, a string type that prases from;
+    ## JSON.parse("5"): 5 number;
+    ## JSON.parse('"5"'): "5" string;
+    ## JSON.prase("\"5\""): "5" string;
+
+    ## JSON.stringify(5): "5" parsed as a number;
+    ## JSON.stringify('5'): "\"5\"" string;
+    ## JSON.stringify("5"): "\"5\"" string;
+
+"COMMON approaches that happens":
+    -- Returning an obj with success and data\body props;
+    ## res.status(200).json({success: 1 , data: []});
+    .. body in case we'll send HTML or text;
+    .. data in case we'll send an array obj;
+
+
+
+Route parameters (react-router-dom :DD);
+================
+-Placeholders, Variables name, used to creating, set up dynamic route s logic;
+-Written in path as such as in react-router-dom did, by adding into the path ":varName";
+    ## app.get("/api/products/:proId", fuctnion(req, res) {});
+    ## app.get("/api/products/:proId/reviews/:revId", fuctnion(req, res) {});
+    ## app.get("/api/v1/users/:username", fuctnion(req, res) {});
+    ## app.get("/api/v1/search?word=..", fuctnion(req, res) {});
+-It is a prop of string type and can be accessed using req.params obj;
+    ## req.params.proId: "string";
+-With it we can access any punch of data and returns only dependens on that params
+    ## may be filtering data;
+    ## finding a data in case we search only on a one thing;
+
+
+
+Route Queries
+=============
+"What is the difference and best performence in case:"
+"Sending the all data and filter them on the client with JS"
+"And filtering the data on the server on the database and then send them"
+"" 01 Save bytes on sending to the client in case filtered on the server;
+"" 02 Saves server power in case sending the all data without reading them on the server to the client;
+
+
+-We use a key value pair to write a query , separated with & ;
+-It is a prop of string type and can be accessed using req.query obj;
+-We can design the system on the server to handle our query for our ideas like:
+    -- All story tags which matching foo;
+    ## /search?query=foo&tags=story;
+    -- Specifing a specific page and the number of results of each page;
+    ## &page=2 &hitsPerPage=50 ;
+
+
+
+Middlewares (Redux and JS callbacks :DD);
+===========
+-They are functions executed during the request to the server, in every action that has triggered;
+-They are have access to req and res objs;
+-"req => middleware => res";
+
+Instead of:
+    01 Copy and paste the code that i want to run in each req;
+    02 Creating a func, attach it in each req and write the same argu after extracting them ...;
+    .. "Middlewares are also funcs BUT the logic is applied in each case instead of the main func which handles some..";
