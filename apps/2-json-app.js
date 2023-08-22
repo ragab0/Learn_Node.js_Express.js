@@ -1,4 +1,7 @@
-// Simple api in express with sending a simple JSON data;
+/***
+ * Simple api in express with sending a simple JSON data;
+ * 
+ */
 
 const express = require("express");
 const app = express();

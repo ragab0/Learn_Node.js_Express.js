@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Methods</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <span>HTTP Methods</span>
+        <h1>POST Method</h1>
+        <hr />
+    </header>
+    <form action="/login" method="post">
+        <input type="text" name="username" id="username" placeholder="Example: Legend" />
+        <button>Save</button>
+    </form>
+    <ul id="us"></ul>
+    <script>
+        fetch("/api/users")
+        .then(res => res.json())
+        .then(users => {
+            us.innerHTML = users.reduce(function(prev, {id, name}) {
+                return prev + `<li>${id}. ${name}</li>`
+            }, '')
+        })
+        .catch(err => console.error(err))
+    </script>
+    <script src="./main.js"></script>
+</body>
+</html>

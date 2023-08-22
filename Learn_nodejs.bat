@@ -95,11 +95,9 @@ Then, we will learn to build a complex "03 Rest API". Finally, you will build a 
 ⌨️ (6:52:53​) Methods - POST (Form Example)
 
 ⌨️ (7:05:31​) Methods - POST (Javascript Example)
-
 ⌨️ (7:21:22​) Install Postman
 ⌨️ (7:30:19​) Methods - PUT
 ⌨️ (7:41:43​) Methods - DELETE
-
 ⌨️ (7:50:05​) Express Router - Setup
 ⌨️ (8:05:36) Express Router - Controllers
 
@@ -570,7 +568,8 @@ const app = express();
     })
 
 04
-.use(express.static(["./assets" || "./public" || "./static"]))
+.use([path], callback[, callback, []])
+    ## use(express.static(["./assets" || "./public" || "./static"]))
     -- Make the static rouserces, without neeeding setup of 01 status, 02 content-type, 03 MIME types, 04 Paths;
     -- Static assets mean: the server doesn't have to change these files;
     -- Creating done in automatic way without need setup the tons of paths for each req of static files;
@@ -666,7 +665,58 @@ Middlewares (Redux and JS callbacks :DD);
 -They are have access to req and res objs;
 -"req => middleware => res";
 
-Instead of:
+They used Instead of:
     01 Copy and paste the code that i want to run in each req;
     02 Creating a func, attach it in each req and write the same argu after extracting them ...;
-    .. "Middlewares are also funcs BUT the logic is applied in each case instead of the main func which handles some..";
+The main idea is that The logic that we write is usually applied in each case or a punch of cases:
+    -- General cases, instead of the callback which handles some info in some cases;
+They used by two ways:
+    01 By adding them as argue after the path argu;
+    ## app.get("path", logger, callback(req, res) {});
+    02 By adding them as argue in the use method;
+    ## app.use(logger): "Applied on all paths";
+    ## app.use("/", logger): "Applied only on the home page";
+    ## app.use("/", [logger, authorize]): "Applied only on the home page, the two middls ";
+
+
+
+
+
+POST Method
+===========
+-It Used in send form data the server;
+-DidYouKnow:
+    -- Axios is better than fetch becuase it is:
+    01 Sends cleaner API;
+    02 Better error msgs
+
+
+
+POST and access
+---------------
+01
+POST: there two ways to send data:
+    01 POSTing using the form action: 
+        ## <form action="/api/login">;
+        -- In this case We should apply the urlencoded middlware in all upcoming requests to enable the body obj:
+        ## app.use(express.urlencoded({ extended: false }))
+
+    02 POSTing using axios and fetch:
+    subbmit.onclick = async function(e) {
+        e.preventDefault();
+        const { data } = await axios.post("/api/login", {name: nameValue});
+    }
+
+
+02
+ACCESS the data:
+    01 In first way, after applying the urlecoded middlware
+    ## <input name="username" />;
+    ## const { username } = req.body;
+    .. Input fields mirrored as props by its value of name attr:
+
+    02 In the second way of posting, access we'll be:
+    -- An object get accessed as any JS Object :D;
+
+
+
