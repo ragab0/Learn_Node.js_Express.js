@@ -1,6 +1,8 @@
 Learn how to use Node and Express in this comprehensive course. 
 First, we will learn the fundamentals of "01 Node" and "02 Express". 
-Then, we will learn to build a complex "03 Rest API". Finally, you will build a "04 MERN app and other Node projects".
+Then, we will learn to build a complex "03... Rest API". 
+Finally, we'll build a "04... MERN app and other Node projects".
+
 
 ⭐️ Course Contents ⭐️
 ⌨️ (00:00​) Introduction 
@@ -688,7 +690,7 @@ POST Method
 -DidYouKnow:
     -- Axios is better than fetch becuase it is:
     01 Sends cleaner API;
-    02 Better error msgs
+    02 Better error msgs;
 
 
 
@@ -696,27 +698,54 @@ POST and access
 ---------------
 01
 POST: there two ways to send data:
-    01 POSTing using the form action: 
-        ## <form action="/api/login">;
-        -- In this case We should apply the urlencoded middlware in all upcoming requests to enable the body obj:
-        ## app.use(express.urlencoded({ extended: false }))
+    01 POSTing using the form action and its method attr with POST: 
+    >> <form action=`/api/login`>;
+    .. "(application/x-www-form-urlencoded) && (Form data)" .. "Should parsed to read" .. "urlencoded middlare";
 
     02 POSTing using axios and fetch:
-    subbmit.onclick = async function(e) {
-        e.preventDefault();
-        const { data } = await axios.post("/api/login", {name: nameValue});
-    }
-
+    >> subbmit.onclick = async function(e) {
+            e.preventDefault();
+            const { data } = await axios.post("/api/login", {name: nameValue});
+        }
+    .. "(application/json) && (request-payload)" .. "json middlware";
 
 02
 ACCESS the data:
-    01 In first way, after applying the urlecoded middlware
-    ## <input name="username" />;
-    ## const { username } = req.body;
-    .. Input fields mirrored as props by its value of name attr:
+    01 In first way, we should apply the urlecoded middlware in all upcoming requests to access the form data:
+       It parses based on body-parser BUT now it is built in SO we'll not need to install it;
+       It parses the reqs body with urlencoded payloads and returns a new parsed body about:
+       -- AS content-type of form is: application/x-www-form-"urlencoded";
+       01 key-value pairs: where the value can be string or array (when extended is false);
+       02 any type (when extended is true);
+    >> app.use(express.urlencoded({ extended: false }))
+    >> <input name="username" />;
+    >> const { username } = req.body;
+    .. The fields mirrored as props, key is the name, and value is the value :D:
 
-    02 In the second way of posting, access we'll be:
-    -- An object get accessed as any JS Object :D;
+    02 In the second way of posting, we should apply the json middlware in the upcoming requests to access the data:
 
 
 
+
+
+Router in express
+=================
+- NVC pattern setup: nicely to use when sending up a data;
+- Route s: COMMON convention is to create them in Route s folder;
+- Route s: The more we'll set up, The more easy we'll get;
+- Route s: Used to set up a base of path and nesting end of them;
+
+- There are two ways to set up a router in express:
+    01
+    ## router.get("/", function())
+    ## router.post("/", function())
+
+    02 "OneLineOfCode" : Combining the methods together in case they match the same path , using the route method;
+    ## router.route("/").get(function()).post()
+
+
+
+Router Controller
+=================
+-It is help us to seperate the callbacks in another files away of route s files and of the HTTP methods;
+-It is a common-convention to put it in controllers folder;

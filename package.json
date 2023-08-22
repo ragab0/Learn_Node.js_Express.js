@@ -1,5 +1,5 @@
 {
-  "name": "nodejs",
+  "name": "Learn_nodejs_express",
   "version": "1.0.0",
   "description": "## Learning Node, Express and (mongoDB, mongoose)",
   "main": "1-main.js",

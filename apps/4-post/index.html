@@ -12,20 +12,48 @@
         <h1>POST Method</h1>
         <hr />
     </header>
-    <form action="/login" method="post">
+    <form id="form">
         <input type="text" name="username" id="username" placeholder="Example: Legend" />
         <button>Save</button>
     </form>
     <ul id="us"></ul>
     <script>
-        fetch("/api/users")
-        .then(res => res.json())
-        .then(users => {
-            us.innerHTML = users.reduce(function(prev, {id, name}) {
-                return prev + `<li>${id}. ${name}</li>`
-            }, '')
+        async function fetchingUsers() {
+            try {
+                const data = await fetch("/api/users");
+                const users = await data.json();
+                us.innerHTML = users.reduce(function(prev, {id, name}) {
+                    return prev + `<li>${id}. ${name}</li>`
+                }, '')
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchingUsers();
+
+        form.addEventListener("submit", async function(e) {
+            e.preventDefault();
+            try {
+                const res = await fetch("/login", {
+                    method: "POST", 
+                    headers: {
+                        "Content-Type": "application/json"
+                    }, 
+                    body: JSON.stringify({username: username.value})
+                })
+                
+                // await fetchingUsers();
+                /** Best performene instead of fetching all gain */
+                const {success, user: {id, name}} = await res.json();
+                if (success) {
+                    us.innerHTML += `<li>${id}. ${name}</li>`
+                }
+
+            } catch (error) {
+                console.log(err);  
+            }
         })
-        .catch(err => console.error(err))
+
     </script>
     <script src="./main.js"></script>
 </body>
